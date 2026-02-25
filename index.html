@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Husan Chu - Personal Page</title>
+    <meta name="description" content="Personal web page of Husan Chu">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-glow: conic-gradient(from 180deg at 50% 50%, #2a8af6 0deg, #a853ba 180deg, #e92a67 360deg);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: #0f111a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background glows */
+        .glow-sphere {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: var(--primary-glow);
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: rotate 20s linear infinite;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 4rem 5rem;
+            text-align: center;
+            z-index: 1;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            transform: translateY(0);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #8b949e;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .time-container {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem 3rem;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.3s ease;
+        }
+
+        .time-container:hover {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .time {
+            font-size: 3rem;
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.2rem;
+        }
+
+        .date {
+            font-size: 1.1rem;
+            color: #8b949e;
+            font-weight: 300;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glow-sphere"></div>
+    <div class="card">
+        <h1>I Husan Chu</h1>
+        <div class="subtitle">Personal Portfolio</div>
+        <div class="time-container">
+            <div class="time" id="clock">10:53:26</div>
+            <div class="date" id="date">February 25, 2026</div>
+        </div>
+    </div>
+
+    <script>
+        // Start from the exact provided source of truth time
+        let currentTime = new Date("2026-02-25T10:53:26+08:00");
+
+        function updateDisplay() {
+            const timeElement = document.getElementById('clock');
+            const dateElement = document.getElementById('date');
+
+            // Format time manually to ensure it displays correctly in the timezone intended
+            const hours = String(currentTime.getHours()).padStart(2, '0');
+            const minutes = String(currentTime.getMinutes()).padStart(2, '0');
+            const seconds = String(currentTime.getSeconds()).padStart(2, '0');
+
+            timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+
+            // Format date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = currentTime.toLocaleDateString('en-US', options);
+
+            // Increment by 1 second for the next tick
+            currentTime.setSeconds(currentTime.getSeconds() + 1);
+        }
+
+        // Initialize immediately display the exact provided time, then start the clock
+        updateDisplay();
+        setInterval(updateDisplay, 1000);
+    </script>
+</body>
+
+</html>
